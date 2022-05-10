@@ -5,6 +5,8 @@
 + [go论坛](https://learnku.com/go)
 + [gorm](https://gorm.io/zh_CN/docs)
 + [大佬博客](https://liwenzhou.com/)
++ [《The Go Programming Language》](http://gopl.io/)
++ [《The Go Programming Language（中文版）》](https://books.studygolang.com/gopl-zh/)
 
 
 #### 现阶段完成内容
