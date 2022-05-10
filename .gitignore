@@ -31,4 +31,9 @@ go.work
 ### air ###
 /tmp/
 
+
+### env ###
+.env
+.text
+
 # End of https://www.toptal.com/developers/gitignore/api/go

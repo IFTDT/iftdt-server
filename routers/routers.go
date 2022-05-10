@@ -2,10 +2,12 @@ package routers
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/iftdt/server/common"
 	"github.com/iftdt/server/controller"
 )
 
 func SetupRouters() *gin.Engine {
+	gin.SetMode(common.ENV.GIN_MODE)
 	app := gin.Default()
 	api := app.Group("/api/v1")
 	{

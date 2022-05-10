@@ -1,14 +1,16 @@
 version: "3"
 
 services:
-  db:
+  mysql:
     image: mysql:5.7
     ports:
       - "3306:3306"
     environment:
-      MYSQL_ROOT_PASSWORD: 123456
-      TZ: Asia/Shanghai
-      MYSQL_DATABASE: iftdt
+      - MYSQL_ROOT_PASSWORD=${DBPassword}
+      - MYSQL_USER=${DBUser}
+      - MYSQL_PASSWORD=${DBPassword}
+      - TZ=Asia/Shanghai
+      - MYSQL_DATABASE=${DBDatabase}
     command:
       --max_connections=1000
       --character-set-server=utf8mb4
@@ -20,5 +22,5 @@ services:
     ports:
       - "8080:8080"
     depends_on:
-      - db
-    command: ["./wait-for-it.sh", "mysql:3306", "--", "./main"]
+      - mysql
+    command: ["/app/wait-for.sh", "mysql:3306", "--", "./main"]
