@@ -15,6 +15,8 @@ type Config struct {
 	DBUser     string
 	DBPassword string
 	DBDatabase string
+
+	APPID string
 }
 
 var ENV Config

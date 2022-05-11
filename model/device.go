@@ -7,10 +7,10 @@ import (
 )
 
 type Device struct {
-	ID        uint      `json:"id"`
-	CreatedAt time.Time `json:"created_at"`
-	UpdatedAt time.Time `json:"updated_at"`
-	Device    string    `json:"device" gorm:"unique"`
+	ID          uint      `json:"id"`
+	CreatedAt   time.Time `json:"created_at"`
+	UpdatedAt   time.Time `json:"updated_at"`
+	DeviceToken string    `json:"device_token" gorm:"unique"`
 
 	UserId uint `json:"user_id"`
 	User   User `json:"user"`

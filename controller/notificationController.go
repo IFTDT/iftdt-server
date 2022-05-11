@@ -2,8 +2,10 @@ package controller
 
 import (
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
+	"github.com/iftdt/server/common"
 	"github.com/iftdt/server/model"
 )
 
@@ -25,7 +27,15 @@ func (controller NotificationController) FindAll(c *gin.Context) {
 func (controller NotificationController) Create(c *gin.Context) {
 	var notification model.Notification
 	c.BindJSON(&notification)
-	err := model.Notification{}.Create(&notification)
+	var user_id = string(strconv.Itoa(int(notification.UserID)))
+	device, err := model.Device{}.FindOne(user_id)
+	if err != nil {
+		c.JSON(http.StatusOK, gin.H{
+			"error": err.Error(),
+		})
+	}
+	go common.PushNotifcation(device.DeviceToken, notification.PayLoad)
+	err = model.Notification{}.Create(&notification)
 	if err != nil {
 		c.JSON(http.StatusOK, gin.H{
 			"error": err.Error(),

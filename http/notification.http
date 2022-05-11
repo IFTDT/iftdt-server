@@ -8,6 +8,22 @@ Content-Type: application/json
 
 {
   "user_id": 1,
-  "payload": "new"
+  "payload": {
+    "aps": {
+        "category": "category",
+        "content-available": 1,
+        "alert": {
+          "launch-image": "icon.icon",
+          "action-loc-key": "LocalizedActionButtonKey",
+          "loc-key": "LocalizedAlertMessage",
+          "subtitle-loc-key": "LocalizedAlertSubtitle",
+          "title-loc-key": "LocalizedAlertTitle"
+        },
+        "sound": "sound.wav",
+        "badge": 2,
+        "mutable-content": 1
+    },
+    "key": "value",
+  }
 }
 

@@ -36,4 +36,8 @@ go.work
 .env
 .text
 
+
+### p12 ###
+*.p12
+
 # End of https://www.toptal.com/developers/gitignore/api/go
