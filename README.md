@@ -28,10 +28,14 @@
 
 #### 跑起来看看？
 
++ 首先拷贝环境变量配置文件 `copy .env.example .env`
+
++ 修改相关配置信息
+
 ##### 本地环境
-***本地环境需要安装GO环境和mysql环境, 修改`dao/mysql.go`文件中相关信息***
 ```shell
 go run .
+
 curl http://localhost:8080/api/v1/devices
 ```
 
