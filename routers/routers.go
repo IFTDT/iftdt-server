@@ -11,7 +11,7 @@ func SetupRouters() *gin.Engine {
 	gin.SetMode(common.ENV.GIN_MODE)
 	app := gin.Default()
 
-	app.POST("login", controller.UserController{}.Login)
+	app.Use(middleware.CORSMiddleware())
 
 	auth := app.Group("/api/v1")
 	auth.Use(middleware.JwtToken())
@@ -32,6 +32,7 @@ func SetupRouters() *gin.Engine {
 	}
 	api := app.Group("/api/v1")
 	{
+		api.POST("login", controller.UserController{}.Login)
 		api.POST("users", controller.UserController{}.Create)
 	}
 

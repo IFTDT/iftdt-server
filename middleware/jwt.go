@@ -2,6 +2,7 @@ package middleware
 
 import (
 	"fmt"
+	"net/http"
 	"strings"
 	"time"
 
@@ -51,10 +52,9 @@ func ValidToken(token string) (*MyClaims, int) {
 func JwtToken() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		authorizathion := c.Request.Header.Get("Authorization")
-		var code int
 		if authorizathion == "" {
-			c.JSON(code, gin.H{
-				"code1": 403,
+			c.JSON(http.StatusUnauthorized, gin.H{
+				"code": 403,
 			})
 			c.Abort()
 			return
@@ -62,16 +62,16 @@ func JwtToken() gin.HandlerFunc {
 
 		token := strings.SplitN(authorizathion, " ", 2)
 		if len(token) != 2 && token[0] != "Bearer" {
-			c.JSON(code, gin.H{
-				"code2": 403,
+			c.JSON(http.StatusUnauthorized, gin.H{
+				"code": 403,
 			})
 			c.Abort()
 			return
 		}
-		key, code := ValidToken(token[1])
+		key, _ := ValidToken(token[1])
 		if time.Now().Unix() > key.ExpiresAt {
-			c.JSON(code, gin.H{
-				"code3": 403,
+			c.JSON(http.StatusUnauthorized, gin.H{
+				"code": 403,
 			})
 			c.Abort()
 			return

@@ -32,6 +32,13 @@ func (d Device) FindOne(id string) (device *Device, err error) {
 	return device, nil
 }
 
+func (d Device) FindOneByUserId(id string) (device *Device, err error) {
+	if err = dao.DB.Preload("User").Where("user_id=?", id).First(&device).Error; err != nil {
+		return nil, err
+	}
+	return device, nil
+}
+
 func (d Device) FindAll() (devices []Device, err error) {
 	if err = dao.DB.Preload("User").Find(&devices).Error; err != nil {
 		return nil, err

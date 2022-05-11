@@ -21,7 +21,11 @@ func PushNotifcation(deviceToken string, payload map[string]interface{}) {
 		Payload:     res,
 	}
 
-	Client.Push(notification)
+	response, err := Client.Push(notification)
+	if err != nil {
+		fmt.Println(err)
+	}
+	fmt.Println(response)
 }
 
 func init() {

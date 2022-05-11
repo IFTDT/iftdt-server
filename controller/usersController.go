@@ -78,7 +78,7 @@ func (controller UserController) Login(c *gin.Context) {
 	}
 	token, _ := middleware.SetToken(user.ID)
 	c.JSON(http.StatusOK, gin.H{
-		"data":  user,
+		"code":  200,
 		"token": token,
 	})
 }

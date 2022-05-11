@@ -2,7 +2,6 @@ package model
 
 import (
 	"errors"
-	"fmt"
 	"time"
 
 	"github.com/iftdt/server/dao"
@@ -40,13 +39,12 @@ func (u User) FindAll() (users []User, err error) {
 }
 
 func (u User) Update(user *User) (err error) {
-	err = dao.DB.Debug().Save(user).Error
+	err = dao.DB.Save(user).Error
 	return
 }
 
 func (u User) Login(loginUser User) (user *User, err error) {
 	if err = dao.DB.Where("name=?", loginUser.Name).First(&user).Error; err != nil {
-		fmt.Println(err)
 		return nil, err
 	}
 

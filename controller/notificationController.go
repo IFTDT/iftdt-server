@@ -28,13 +28,13 @@ func (controller NotificationController) Create(c *gin.Context) {
 	var notification model.Notification
 	c.BindJSON(&notification)
 	var user_id = string(strconv.Itoa(int(notification.UserID)))
-	device, err := model.Device{}.FindOne(user_id)
+	device, err := model.Device{}.FindOneByUserId(user_id)
 	if err != nil {
 		c.JSON(http.StatusOK, gin.H{
 			"error": err.Error(),
 		})
 	}
-	go common.PushNotifcation(device.DeviceToken, notification.PayLoad)
+	go common.PushNotifcation(device.DeviceToken, notification.Payload)
 	err = model.Notification{}.Create(&notification)
 	if err != nil {
 		c.JSON(http.StatusOK, gin.H{
@@ -42,7 +42,11 @@ func (controller NotificationController) Create(c *gin.Context) {
 		})
 	} else {
 		c.JSON(http.StatusOK, gin.H{
-			"data": notification,
+			"data": gin.H{
+				"id":      notification.ID,
+				"payload": notification.Payload,
+				"user_id": notification.UserID,
+			},
 		})
 	}
 }
