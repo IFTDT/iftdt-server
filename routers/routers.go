@@ -4,21 +4,36 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/iftdt/server/common"
 	"github.com/iftdt/server/controller"
+	"github.com/iftdt/server/middleware"
 )
 
 func SetupRouters() *gin.Engine {
 	gin.SetMode(common.ENV.GIN_MODE)
 	app := gin.Default()
-	api := app.Group("/api/v1")
+
+	app.POST("login", controller.UserController{}.Login)
+
+	auth := app.Group("/api/v1")
+	auth.Use(middleware.JwtToken())
 	{
 		// for admin
-		api.GET("devices", controller.DeviceController{}.FindAll)
-		// api.GET("notifications", controller.Notification{}.FindAll)
-		// api.POST("notifications", controller.Notification{}.Create)
+		auth.GET("devices", controller.DeviceController{}.FindAll)
+
+		auth.GET("users", controller.UserController{}.FindAll)
+
+		auth.GET("notifications", controller.NotificationController{}.FindAll)
+		auth.POST("notifications", controller.NotificationController{}.Create)
 
 		// for app
-		api.POST("devices", controller.DeviceController{}.Create)
-		api.PUT("devices/:id", controller.DeviceController{}.Update)
+		auth.PUT("users/:id", controller.UserController{}.Update)
+
+		auth.POST("devices", controller.DeviceController{}.Create)
+		auth.PUT("devices/:id", controller.DeviceController{}.Update)
 	}
+	api := app.Group("/api/v1")
+	{
+		api.POST("users", controller.UserController{}.Create)
+	}
+
 	return app
 }

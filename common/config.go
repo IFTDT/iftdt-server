@@ -7,6 +7,7 @@ import (
 type Config struct {
 	GIN_MODE   string
 	ServerPort string
+	JWTKey     string
 
 	DBDriver   string
 	DBHost     string

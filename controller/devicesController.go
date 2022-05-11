@@ -10,7 +10,7 @@ import (
 type DeviceController struct{}
 
 func (device DeviceController) FindAll(c *gin.Context) {
-	devices, err := model.FindAll()
+	devices, err := model.Device{}.FindAll()
 	if err != nil {
 		c.JSON(http.StatusOK, gin.H{
 			"error": err.Error(),
@@ -25,7 +25,7 @@ func (device DeviceController) FindAll(c *gin.Context) {
 func (device DeviceController) Create(c *gin.Context) {
 	var d model.Device
 	c.BindJSON(&d)
-	err := model.Create(&d)
+	err := model.Device{}.Create(&d)
 	if err != nil {
 		c.JSON(http.StatusOK, gin.H{
 			"error": err.Error(),
@@ -45,7 +45,7 @@ func (device DeviceController) Update(c *gin.Context) {
 		})
 		return
 	}
-	d, err := model.FindOne(id)
+	d, err := model.Device{}.FindOne(id)
 	if err != nil {
 		c.JSON(http.StatusOK, gin.H{
 			"error": err.Error(),
