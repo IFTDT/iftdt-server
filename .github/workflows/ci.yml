@@ -22,10 +22,6 @@ jobs:
         mysql user: gin
         mysql password: 123456
 
-    - run: |
-        sleep 15
-        mysql -h 127.0.0.1 --port 3306 -uroot -p123456
-
     - uses: actions/checkout@v3
 
     - name: Set up Go
