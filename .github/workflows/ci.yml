@@ -33,5 +33,4 @@ jobs:
 
     - name: Test
       run: |
-        copy .env.example .env
         go test -V ./...
