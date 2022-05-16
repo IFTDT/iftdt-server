@@ -1,29 +1,30 @@
 ### 获取所有数据
 GET http://localhost:8080/api/v1/notifications
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZXhwIjoxNjUyNzA1MTg2LCJpc3MiOiJpZnRkdCJ9.hGmCS5SbPbw7l9yoMW58eoJktCRqt01Hps56IRzK-Rc
 
 
 ### 添加一条数据
 POST http://localhost:8080/api/v1/notifications  HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZXhwIjoxNjUyNzA1MTg2LCJpc3MiOiJpZnRkdCJ9.hGmCS5SbPbw7l9yoMW58eoJktCRqt01Hps56IRzK-Rc
 Content-Type: application/json
 
 {
   "user_id": 1,
   "payload": {
     "aps": {
-        "category": "category",
-        "content-available": 1,
-        "alert": {
-          "launch-image": "icon.icon",
-          "action-loc-key": "LocalizedActionButtonKey",
-          "loc-key": "LocalizedAlertMessage",
-          "subtitle-loc-key": "LocalizedAlertSubtitle",
-          "title-loc-key": "LocalizedAlertTitle"
-        },
-        "sound": "sound.wav",
-        "badge": 2,
-        "mutable-content": 1
+      "category": "category",
+      "content-available": 1,
+      "alert": {
+        "launch-image": "icon.icon",
+        "action-loc-key": "LocalizedActionButtonKey",
+        "loc-key": "LocalizedAlertMessage",
+        "subtitle-loc-key": "LocalizedAlertSubtitle",
+        "title-loc-key": "LocalizedAlertTitle"
+      },
+      "sound": "sound.wav",
+      "badge": 2,
+      "mutable-content": 1
     },
-    "key": "value",
+    "key": "value"
   }
 }
-

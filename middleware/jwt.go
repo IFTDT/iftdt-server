@@ -45,7 +45,7 @@ func ValidToken(token string) (*MyClaims, int) {
 	if key, ok := t.Claims.(*MyClaims); ok && t.Valid {
 		return key, 200
 	}
-	return nil, 403
+	return nil, 401
 }
 
 // jwt中间件
@@ -54,7 +54,7 @@ func JwtToken() gin.HandlerFunc {
 		authorizathion := c.Request.Header.Get("Authorization")
 		if authorizathion == "" {
 			c.JSON(http.StatusUnauthorized, gin.H{
-				"code": 403,
+				"code": 401,
 			})
 			c.Abort()
 			return
@@ -63,15 +63,22 @@ func JwtToken() gin.HandlerFunc {
 		token := strings.SplitN(authorizathion, " ", 2)
 		if len(token) != 2 && token[0] != "Bearer" {
 			c.JSON(http.StatusUnauthorized, gin.H{
-				"code": 403,
+				"code": 401,
 			})
 			c.Abort()
 			return
 		}
-		key, _ := ValidToken(token[1])
+		key, code := ValidToken(token[1])
+		if code == 401 {
+			c.JSON(http.StatusUnauthorized, gin.H{
+				"code": 401,
+			})
+			c.Abort()
+			return
+		}
 		if time.Now().Unix() > key.ExpiresAt {
 			c.JSON(http.StatusUnauthorized, gin.H{
-				"code": 403,
+				"code": 401,
 			})
 			c.Abort()
 			return

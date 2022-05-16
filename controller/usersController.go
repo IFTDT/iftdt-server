@@ -4,80 +4,49 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/iftdt/server/entity"
 	"github.com/iftdt/server/middleware"
-	"github.com/iftdt/server/model"
+	"github.com/iftdt/server/service"
 )
 
-type UserController struct{}
+type UserController interface {
+	Create(ctx *gin.Context) entity.User
+	FindAll() []entity.User
+	Login(ctx *gin.Context)
+}
 
-func (controller UserController) FindAll(c *gin.Context) {
-	users, err := model.User{}.FindAll()
-	if err != nil {
-		c.JSON(http.StatusOK, gin.H{
-			"error": err.Error(),
-		})
-	} else {
-		c.JSON(http.StatusOK, gin.H{
-			"data": users,
-		})
+type userController struct {
+	service service.UserService
+}
+
+func NewUserController(service service.UserService) UserController {
+	return &userController{
+		service: service,
 	}
 }
 
-func (controller UserController) Create(c *gin.Context) {
-	var user model.User
-	c.BindJSON(&user)
-	err := model.User{}.Create(&user)
-	if err != nil {
-		c.JSON(http.StatusOK, gin.H{
-			"error": err.Error(),
-		})
-	} else {
-		c.JSON(http.StatusOK, gin.H{
-			"data": user,
-		})
-	}
+func (c *userController) Create(ctx *gin.Context) entity.User {
+	var user entity.User
+	ctx.BindJSON(&user)
+	return c.service.Create(user)
 }
 
-func (controller UserController) Update(c *gin.Context) {
-	id, ok := c.Params.Get("id")
-	if !ok {
-		c.JSON(http.StatusOK, gin.H{
-			"error": "无效的id",
-		})
-		return
-	}
-	user, err := model.User{}.FindOne(id)
-	if err != nil {
-		c.JSON(http.StatusOK, gin.H{
-			"error": err.Error(),
-		})
-		return
-	}
-	c.BindJSON(user)
-	err = model.User{}.Update(user)
-	if err != nil {
-		c.JSON(http.StatusOK, gin.H{
-			"error": err.Error(),
-		})
-	} else {
-		c.JSON(http.StatusOK, gin.H{
-			"data": user,
-		})
-	}
+func (c *userController) FindAll() []entity.User {
+	return c.service.FindAll()
 }
 
-func (controller UserController) Login(c *gin.Context) {
-	var loginUser model.User
-	c.BindJSON(&loginUser)
-	user, err := model.User{}.Login(loginUser)
+func (c *userController) Login(ctx *gin.Context) {
+	var loginUser entity.User
+	ctx.BindJSON(&loginUser)
+	user, err := c.service.Login(loginUser)
 	if err != nil {
-		c.JSON(http.StatusOK, gin.H{
-			"error": err.Error(),
+		ctx.JSON(http.StatusOK, gin.H{
+			"message": err.Error(),
 		})
 		return
 	}
 	token, _ := middleware.SetToken(user.ID)
-	c.JSON(http.StatusOK, gin.H{
+	ctx.JSON(http.StatusOK, gin.H{
 		"code":  200,
 		"token": token,
 	})

@@ -1,4 +1,4 @@
-package model
+package entity
 
 type Model[T interface{}] interface {
 	Create(*T) (err error)

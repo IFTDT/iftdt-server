@@ -4,62 +4,45 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/iftdt/server/model"
+	"github.com/iftdt/server/entity"
+	"github.com/iftdt/server/service"
 )
 
-type DeviceController struct{}
+type DeviceController interface {
+	Create(ctx *gin.Context) entity.Device
+	Update(ctx *gin.Context)
+	FindAll() []entity.Device
+}
 
-func (device DeviceController) FindAll(c *gin.Context) {
-	devices, err := model.Device{}.FindAll()
-	if err != nil {
-		c.JSON(http.StatusOK, gin.H{
-			"error": err.Error(),
-		})
-	} else {
-		c.JSON(http.StatusOK, gin.H{
-			"data": devices,
-		})
+type deviceController struct {
+	service service.DeviceService
+}
+
+func NewDeviceController(service service.DeviceService) DeviceController {
+	return &deviceController{
+		service: service,
 	}
 }
 
-func (device DeviceController) Create(c *gin.Context) {
-	var d model.Device
-	c.BindJSON(&d)
-	err := model.Device{}.Create(&d)
-	if err != nil {
-		c.JSON(http.StatusOK, gin.H{
-			"error": err.Error(),
-		})
-	} else {
-		c.JSON(http.StatusOK, gin.H{
-			"data": d,
-		})
-	}
+func (c *deviceController) FindAll() []entity.Device {
+	return c.service.FindAll()
 }
 
-func (device DeviceController) Update(c *gin.Context) {
-	id, ok := c.Params.Get("id")
+func (c *deviceController) Create(ctx *gin.Context) entity.Device {
+	var device entity.Device
+	ctx.BindJSON(&device)
+	return c.service.Create(device)
+}
+
+func (c *deviceController) Update(ctx *gin.Context) {
+	id, ok := ctx.Params.Get("id")
 	if !ok {
-		c.JSON(http.StatusOK, gin.H{
+		ctx.JSON(http.StatusOK, gin.H{
 			"error": "无效的id",
 		})
 		return
 	}
-	d, err := model.Device{}.FindOne(id)
-	if err != nil {
-		c.JSON(http.StatusOK, gin.H{
-			"error": err.Error(),
-		})
-		return
-	}
-	c.BindJSON(&d)
-	if err != nil {
-		c.JSON(http.StatusOK, gin.H{
-			"error": err.Error(),
-		})
-	} else {
-		c.JSON(http.StatusOK, gin.H{
-			"data": d,
-		})
-	}
+	device := c.service.FindOne(id)
+	ctx.BindJSON(&device)
+	c.service.Update(device)
 }

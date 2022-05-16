@@ -1,6 +1,8 @@
 package common
 
 import (
+	"fmt"
+
 	"github.com/spf13/viper"
 )
 
@@ -22,7 +24,15 @@ type Config struct {
 var ENV Config
 
 func init() {
-	viper.SetConfigFile(".env")
+
+	viper.SetConfigName("app")
+	viper.SetConfigType("env")
+	viper.AddConfigPath(".")
+
+	// path for unit test
+	viper.AddConfigPath("../")
+
+	// viper.SetConfigFile(".env")
 
 	// 自动加载环境变量进行覆盖
 	viper.AutomaticEnv()
@@ -33,4 +43,5 @@ func init() {
 	}
 
 	viper.Unmarshal(&ENV)
+	fmt.Print(ENV)
 }
