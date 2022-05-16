@@ -22,7 +22,7 @@ jobs:
         mysql user: gin
         mysql password: 123456
 
-    - run: mysql -ugin -p123456
+    - run: mysql -h127.0.0.1 -ugin -p123456
 
     - uses: actions/checkout@v3
 
