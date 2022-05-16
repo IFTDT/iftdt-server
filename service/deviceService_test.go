@@ -9,12 +9,12 @@ import (
 )
 
 const (
-	DEVICETOKEN = "1231321231"
+	DEVICETOKEN = "DEVICETOKEN"
 )
 
 var testVideo entity.Device = entity.Device{
 	DeviceToken: DEVICETOKEN,
-	UserId:      3,
+	UserId:      1,
 }
 
 var _ = Describe("Device Service", func() {
@@ -22,11 +22,19 @@ var _ = Describe("Device Service", func() {
 	var (
 		deviceRepository repository.DeviceRepository
 		deviceService    DeviceService
+
+		userRepository repository.UserRepository
+		userService    UserService
 	)
 
 	BeforeEach(func() {
 		deviceRepository = repository.NewDeviceRepository(dto.DB)
 		deviceService = NewDeviceService(deviceRepository)
+
+		userRepository = repository.NewUserRepository(dto.DB)
+		userService = NewUserService(userRepository)
+
+		userService.Create(testUser)
 	})
 
 	Describe("Fetching all existing devices", func() {

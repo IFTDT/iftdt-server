@@ -59,11 +59,11 @@ var _ = Describe("User Service", func() {
 
 		// Context("If there are no user in the database", func() {
 
-		// It("should return an empty list", func() {
-		// 	users := userService.FindAll()
+		// 	It("should return an empty list", func() {
+		// 		users := userService.FindAll()
 
-		// 	Ω(users).Should(BeEmpty())
-		// })
+		// 		Ω(users).Should(BeEmpty())
+		// 	})
 
 		// })
 	})
