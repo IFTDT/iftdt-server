@@ -34,3 +34,5 @@ jobs:
     - name: Test
       run: |
         go test -v ./...
+      env:
+        DBHost: 0.0.0.0
