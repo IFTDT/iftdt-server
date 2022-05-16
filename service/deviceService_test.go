@@ -24,7 +24,7 @@ var _ = Describe("Device Service", func() {
 		deviceService    DeviceService
 	)
 
-	BeforeSuite(func() {
+	BeforeEach(func() {
 		deviceRepository = repository.NewDeviceRepository(dto.DB)
 		deviceService = NewDeviceService(deviceRepository)
 	})
@@ -59,15 +59,12 @@ var _ = Describe("Device Service", func() {
 		Context("If there are no device in the database", func() {
 
 			It("should return an empty list", func() {
-				videos := deviceService.FindAll()
+				devices := deviceService.FindAll()
 
-				Ω(videos).Should(BeEmpty())
+				Ω(devices).Should(BeEmpty())
 			})
 
 		})
 	})
 
-	AfterSuite(func() {
-		// deviceRepository.CloseDB()
-	})
 })

@@ -7,7 +7,7 @@ import (
 	. "github.com/onsi/gomega"
 )
 
-func TestVideoService(t *testing.T) {
+func TestDeviceService(t *testing.T) {
 	RegisterFailHandler(Fail)
 	RunSpecs(t, "Device Service Test Suite")
 }
