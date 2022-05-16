@@ -32,4 +32,6 @@ jobs:
         go-version: 1.18
 
     - name: Test
-      run: go Test -V ./...
+      run: |
+        copy .env.example .env
+        go test -V ./...
