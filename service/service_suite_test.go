@@ -9,5 +9,5 @@ import (
 
 func TestVideoService(t *testing.T) {
 	RegisterFailHandler(Fail)
-	RunSpecs(t, "Video Service Test Suite")
+	RunSpecs(t, "Device Service Test Suite")
 }
