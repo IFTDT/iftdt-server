@@ -7,7 +7,6 @@ services:
       - "3306:3306"
     environment:
       - MYSQL_ROOT_PASSWORD=${DBPassword}
-      - MYSQL_USER=${DBUser}
       - MYSQL_PASSWORD=${DBPassword}
       - TZ=Asia/Shanghai
       - MYSQL_DATABASE=${DBDatabase}
